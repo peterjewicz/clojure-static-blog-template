@@ -7,8 +7,9 @@
             [optimus.optimizations :as optimizations]
             [optimus.prime :as optimus]
             [optimus.strategies :refer [serve-live-assets]]
+            [blog-template.templates.page-template :refer [page-template]]
             [blog-template.templates.post-template :refer [post-template]]))
-            
+
 
 (defn prepare-page [page req]
   (if (string? page) page (page req)))
@@ -17,6 +18,9 @@
   (zipmap (keys pages)
           (map #(partial prepare-page %) (vals pages))))
 
+(defn pages-pages [pages]
+  (zipmap (map #(str/replace % #"\.html$" "/") (keys pages))
+          (map #(fn [req] (page-template req %)) (vals pages))))
 
 (defn posts-pages [pages]
   (zipmap (map #(str/replace % #"\.html$" "/") (keys pages))
@@ -25,6 +29,7 @@
 (defn get-raw-pages []
   (stasis/merge-page-sources
    {:public (stasis/slurp-directory "resources/public" #".*\.(html|css|js)$")
+    :pages (pages-pages (stasis/slurp-directory "resources/pages" #".*\.html$"))
     :posts (posts-pages (stasis/slurp-directory "resources/posts" #".*\.html$"))}))
 
 (defn get-pages []

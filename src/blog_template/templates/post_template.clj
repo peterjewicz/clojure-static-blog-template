@@ -9,4 +9,5 @@
      (Header request (:header page-struct))
      [:body
       [:div.logo "Logo"]
+      [:p "Post Template"]
       [:div.body (:page page-struct)]])))
