@@ -19,18 +19,19 @@
           (map #(partial prepare-page %) (vals pages))))
 
 (defn pages-pages [pages]
-  (zipmap (map #(str/replace % #"\.html$" "/") (keys pages))
+  (zipmap (map #(str/replace % #"\.clj$" "/") (keys pages))
           (map #(fn [req] (page-template req %)) (vals pages))))
 
 (defn posts-pages [pages]
-  (zipmap (map #(str/replace % #"\.html$" "/") (keys pages))
+  (zipmap (map #(str/replace % #"\.clj$" "/") (keys pages))
           (map #(fn [req] (post-template req %)) (vals pages))))
 
 (defn get-raw-pages []
   (stasis/merge-page-sources
    {:public (stasis/slurp-directory "resources/public" #".*\.(html|css|js)$")
-    :pages (pages-pages (stasis/slurp-directory "resources/pages" #".*\.html$"))
-    :posts (posts-pages (stasis/slurp-directory "resources/posts" #".*\.html$"))}))
+    ; :index (pages-pages (stasis/slurp-directory "resources/public" #".*\.clj$"))
+    :pages (pages-pages (stasis/slurp-directory "resources/pages" #".*\.clj$"))
+    :posts (posts-pages (stasis/slurp-directory "resources/posts" #".*\.clj$"))}))
 
 (defn get-pages []
   (prepare-pages (get-raw-pages)))
