@@ -26,10 +26,14 @@
   (zipmap (map #(str/replace % #"\.clj$" "/") (keys pages))
           (map #(fn [req] (post-template req %)) (vals pages))))
 
+(defn index-page [pages]
+  "special case for our index page - need the .html or it treats it like other pages"
+  (zipmap (map #(str/replace % #"\.clj$" ".html") (keys pages))
+          (map #(fn [req] (post-template req %)) (vals pages))))
+
 (defn get-raw-pages []
   (stasis/merge-page-sources
-   {:public (stasis/slurp-directory "resources/public" #".*\.(html|css|js)$")
-    ; :index (pages-pages (stasis/slurp-directory "resources/public" #".*\.clj$"))
+   {:public (index-page (stasis/slurp-directory "resources/public" #".*\.clj$"))
     :pages (pages-pages (stasis/slurp-directory "resources/pages" #".*\.clj$"))
     :posts (posts-pages (stasis/slurp-directory "resources/posts" #".*\.clj$"))}))
 
