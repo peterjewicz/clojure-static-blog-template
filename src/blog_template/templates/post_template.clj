@@ -4,7 +4,7 @@
 
 
 (defn post-template [request page]
-  (let [page-struct (clojure.edn/read-string (str "{" page "}"))]
+  (let [page-struct (clojure.edn/read-string page )]
     (html5
      (Header request (:header page-struct))
      [:body

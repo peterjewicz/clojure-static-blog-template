@@ -29,7 +29,7 @@
 (defn index-page [pages]
   "special case for our index page - need the .html or it treats it like other pages"
   (zipmap (map #(str/replace % #"\.clj$" ".html") (keys pages))
-          (map #(fn [req] (post-template req %)) (vals pages))))
+          (map #(fn [req] (page-template req %)) (vals pages))))
 
 (defn get-raw-pages []
   (stasis/merge-page-sources
