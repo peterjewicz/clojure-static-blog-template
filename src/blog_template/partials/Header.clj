@@ -8,5 +8,8 @@
            :content "width=device-width, initial-scale=1.0"}]
    [:meta {:name "description"
            :content (:meta-desc header)}]
+   (if (:published header)
+     [:meta {:itemprop "datePublished"
+             :content (:published header)}])
    [:title (:title header)]
    [:link {:rel "stylesheet" :href (link/file-path request "/styles/main.css")}]])
