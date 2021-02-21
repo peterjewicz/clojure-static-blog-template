@@ -17,7 +17,6 @@
 
 (defn generate-posts-page []
   (map (fn [page] (generate-single-post (first page) (clojure.edn/read-string (second page) ))) (stasis/slurp-directory "resources/posts" #".*\.clj$")))
-    ; (map (fn [page] (println (clojure.edn/read-string  (second page)))) (stasis/slurp-directory "resources/posts" #".*\.clj$")))
 
 (defn evaluable? [x]
   (and (vector? x)
