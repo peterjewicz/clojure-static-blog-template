@@ -7,6 +7,7 @@
             [optimus.optimizations :as optimizations]
             [optimus.prime :as optimus]
             [optimus.strategies :refer [serve-live-assets]]
+            [optimus-sass.core]
             [blog-template.templates.page-template :refer [page-template]]
             [blog-template.templates.post-template :refer [post-template]]))
 

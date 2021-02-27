@@ -12,4 +12,4 @@
      [:meta {:itemprop "datePublished"
              :content (:published header)}])
    [:title (:title header)]
-   [:link {:rel "stylesheet" :href (link/file-path request "/styles/main.css")}]])
+   [:link {:rel "stylesheet" :href (link/file-path request "/styles/main.scss")}]])
