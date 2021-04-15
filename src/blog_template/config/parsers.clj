@@ -1,7 +1,8 @@
 (ns blog-template.config.parsers
   (:require [blog-template.config.media :refer [get-image-map]]
             [clojure.string :as str]
-            [stasis.core :as stasis]))
+            [stasis.core :as stasis]
+            [blog-template.config.times :refer [find-published-time time-compare]]))
 
 (defn generate-image [name]
   (let [image-map (get-image-map name)]
@@ -14,9 +15,10 @@
     [:div.Single-post-text
      [:h2 (:title (:header page))]]]])
 
-
 (defn generate-posts-page []
-  (map (fn [page] (generate-single-post (first page) (clojure.edn/read-string (second page) ))) (stasis/slurp-directory "resources/posts" #".*\.clj$")))
+  "This will generate a view of all your posts and sort them by 'published' field on the post file"
+  (let [posts (sort-by find-published-time time-compare (stasis/slurp-directory "resources/posts" #".*\.clj$"))]
+    (map (fn [page] (generate-single-post (first page) (clojure.edn/read-string (second page) ))) posts)))
 
 (defn evaluable? [x]
   (and (vector? x)
