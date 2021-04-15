@@ -17,6 +17,4 @@
 (defn time-compare [x y]
   (let [first-publish (f/parse custom-formatter (find-published-time x))
         second-publish (f/parse custom-formatter (find-published-time y))]
-    (println first-publish)
-    (println second-publish)
     (time/after? first-publish second-publish)))
